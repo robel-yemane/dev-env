@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goapptest
+spec:
+  containers:
+  - name: goapptest
+    image: k3d-registry.localhost:5555/goapptest

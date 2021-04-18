@@ -1,0 +1,18 @@
+##Steps:
+
+k3d registry create registry.localhost --port 5555
+k3d registry list
+k3d cluster create devK3s --registry-use k3d-registry.localhost:5555
+
+
+##TODO:
+
+#automate create/deletion of local dev
+#look into delete images from private registry
+
+
+
+##Resources:
+
+#https://k3d.io/usage/guides/registries/#using-a-local-registry
+#https://devopsspiral.com/articles/k8s/k3d-skaffold/

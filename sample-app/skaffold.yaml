@@ -1,0 +1,41 @@
+apiVersion: skaffold/v2beta14
+kind: Config
+build:
+  tagPolicy:
+    envTemplate:
+      template: "{{.TAG}}"
+  artifacts:
+  - image: k3d-registry.localhost:5555/goapptest
+
+test:
+  - image: k3d-registry.localhost:5555/goapptest
+    custom:
+      - command: ./test.sh
+        timeoutSeconds: 10
+        dependencies:
+          paths:
+          -  "*_test.go"
+          -  "test.sh"
+      - command: echo Hello world!!
+        dependencies:
+          command: echo [\"main_test.go\"] 
+
+deploy:
+  kubectl:
+    manifests:
+      - k8s-*
+
+profiles:
+  - name: test
+    test:
+      - image: k3d-registry.localhost:5555/goapptest
+        custom:
+          - command: ./test.sh
+            timeoutSeconds: 60
+            dependencies:
+              paths:
+              - "*_test.go"
+              - "test.sh"
+          - command: echo Helloo world!!!
+            dependencies:
+              command: echo [\"main_test.go\"]
